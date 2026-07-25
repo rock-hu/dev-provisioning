@@ -1,0 +1,33 @@
+<project name="dev-provisioning" basedir=".">
+
+
+    <target name="sdkman">
+        <exec executable="curl">
+            <arg line="-s 'https://get.sdkman.io' | bash" />
+        </exec>
+    </target>
+
+    <!-- 
+    source \"${SDKMAN_DIR}/bin/sdkman-init.sh\""
+    -->
+
+
+    <target name="sdkman-source">
+        <exec executable="source">
+            <arg line="${SDKMAN_DIR}/bin/sdkman-init.sh" />
+        </exec>
+    </target>
+
+    <target name="sdkman-install-jdk" depends="sdkman-source">
+        <exec executable="sdk">
+            <arg line="install java 25.0.4-ms" />
+        </exec>
+    </target>
+
+    <target name="sdkman-install-sdks" depends="sdkman-source">
+        <exec executable="sdk">
+            <arg
+                line="install gradle detekt groovy grails http4k infrastructor jarviz jmc jmeter kotlin kotlintoolchain ktx maven quarkus springboot visualvm" />
+        </exec>
+    </target>
+</project>
