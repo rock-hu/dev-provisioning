@@ -1,0 +1,220 @@
+# Mac: Add Homebrew Python aliases to PATH
+# export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+
+# Set Node.js RAM
+export NODE_OPTIONS=--max-old-space-size=8096
+
+# ----------------------------------------------
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias cd..='cd ..'
+alias root='cd $(git rev-parse --show-toplevel)'
+
+# List files
+alias l='ls -al --color=auto --group-directories-first'
+alias ll='ls -l --color=auto --group-directories-first'
+
+# App defaults
+alias ntl='ntl -A -s 25'
+
+# Shortcuts
+alias inst='sudo apt-get install'
+alias update='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y'
+
+# Applications
+alias xy='XYplorer.exe $(pwd)'
+# alias start=open    # Mac alias
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+# Edit shell aliases and automatically reload them
+alias aliases='nano ~/.bash_aliases && source ~/.bashrc'
+
+# Get week number
+alias week='date +%V'
+
+# Download a single website including static resources
+alias download='wget -p -k'
+
+# Search/show open ports
+alias port='netstat -tulpn | grep --color'
+alias ports='netstat -plunt'
+
+# Git
+git4all() {
+  find . -mindepth 1 -maxdepth 3 -type d -name '.git' -prune -exec sh -c 'echo ${0%?????}; git -C ${0%?????} $1' {} "$1" \;
+}
+
+alias s='git s'
+alias q='git q'
+alias ff='git fa && echo "" && git q && echo "" && git s'
+alias amend='git add . && git amend'
+
+alias push-all='git4all "push --quiet"'
+alias pull-all='git4all "pull --rebase --all --quiet"'
+alias fetch-all='git4all "fetch --all --quiet" \;'
+alias state-all='git4all "state" \;'
+
+# Quick change Git config
+# gitc user       - add user
+# gitc production - add production remote
+# gitc github     - add github remote
+gitc() {
+   if [ "$1" = "user" ]
+   then
+     git config --local user.name "USER NAME"
+     git config --local user.username "USERNAME"
+     git config --local user.email "USER@EXAMPLE.COM"
+   elif [ "$1" = "production" ]
+   then
+     git remote add production "ssh://USER@EXAMPLE.COM/home/USER/DIR/${PWD##*/}.git"
+   elif [ "$1" = "github" ]
+   then
+     git remote add origin "git@github.com:USER/${PWD##*/}.git"
+   else
+      echo "gitc user | production | github"
+   fi
+}
+
+# Npm
+npm4all() {
+  find . -mindepth 1 -maxdepth 3 -type f -name 'package.json' -prune -exec sh -c 'echo ${0%????????????}; npm --prefix ${0%????????????} $1' {} "$1" \;
+}
+
+# Yarn
+yarn4all() {
+  find . -mindepth 1 -maxdepth 3 -type f -name 'package.json' -prune -exec sh -c 'echo ${0%????????????}; yarn --cwd ${0%????????????} $1' {} "$1" \;
+}
+
+alias audit-all='npm4all audit'
+
+alias nuke='rm -rf node_modules && yarn'
+
+alias kn='killall node'
+
+# LAN transfer commands
+transfer-to() { rsync --rsync-path=/bin/rsync -e ssh "$1" "USER@NAS:/DIR/${1##*/}"; }
+transfer-from() { rsync --remove-source-files --rsync-path=/bin/rsync -e ssh "USER@NAS:/DIR/$1" "$1"; }
+transfer-list() { rsync --list-only --rsync-path=/bin/rsync -e ssh "USER@NAS:/DIR/"; }
+
+# Release-it
+release () { release-it --disable-metrics --only-version --config ~/.release-it/.release-it-default.yaml --npm.otp="$1"; }
+releasec () { release-it --disable-metrics --only-version --config ~/.release-it/.release-it-changelog.yaml --npm.otp="$1"; }
+
+# Get changelog
+changelog() { npx get-changelog -o -m "$1"; }
+
+# Prevent a script from finishing until a key was pressed
+alias pause='echo "Press any key to continue..."; read -n 1 -s'
+
+# Misc
+alias commands='cat ~/.commands'
+
+# Chmod aliases (e.g.: +x file.sh)
+for mod in x w r; do
+  alias -- "+$mod"="chmod +$mod"
+  alias -- "-$mod"="chmod -- -$mod"
+done
+
+# Python 3 server
+alias server='python -m http.server 8000'
+
+# Get a random hash
+# https://gist.github.com/earthgecko/3089509
+random () { echo $(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w ${1-8} | head -n 1); }
+
+# Search for a running process
+task () { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+
+# Make and cd into directory
+mcd () { mkdir $1 && cd $1; }
+
+# Creates an archive (*.tar.gz) from given directory
+maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+
+# Create a ZIP archive of a file or folder
+makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# Edit post-receive git hook for repository
+hook () { nano ~/git/$1.git/hooks/post-receive; }
+
+# Extract most know archives with one command
+extract () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1     ;;
+      *.tar.gz)    tar xzf $1     ;;
+      *.bz2)       bunzip2 $1     ;;
+      *.rar)       unrar e $1     ;;
+      *.gz)        gunzip $1      ;;
+      *.tar)       tar xf $1      ;;
+      *.tbz2)      tar xjf $1     ;;
+      *.tgz)       tar xzf $1     ;;
+      *.zip)       unzip $1       ;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1        ;;
+      *)     echo "'$1' cannot be extracted via extract()" ;;
+       esac
+   else
+       echo "'$1' is not a valid file"
+   fi
+}
+
+# On Mac, use gxargs instead
+# brew install findutils
+
+# Find all files with Unix line endings (LF)
+findlf () {
+  find . -not \( \
+    -name .git -prune -o \
+    -name .idea -prune -o \
+    -name node_modules -prune \
+  \) -type f -print0 | xargs -0 unix2dos -ic
+}
+
+# Convert all files with Unix line endings (LF) into Windows line endings (CRLF)
+convertlf () {
+  find . -not \( \
+    -name .git -prune -o \
+    -name .idea -prune -o \
+    -name node_modules -prune \
+  \) -type f -print0 | gxargs -0 unix2dos -ic | gxargs -d '\n' unix2dos
+}
+
+# Find all files with Windows line endings (CRLF)
+findcrlf () {
+  find . -not \( \
+    -name .git -prune -o \
+    -name .idea -prune -o \
+    -name node_modules -prune \
+  \) -type f -print0 | gxargs -0 dos2unix -ic
+}
+
+# Convert all files with Windows line endings (CRLF) into Unix line endings (LF)
+convertcrlf () {
+  find . -not \( \
+    -name .git -prune -o \
+    -name .idea -prune -o \
+    -name node_modules -prune \
+  \) -type f -print0 | gxargs -0 dos2unix -ic | gxargs -d '\n' dos2unix
+}
+
+# Show all colors
+colors() {
+  T='gYw'      # The test text
+  echo -e "\n                 40m     41m     42m     43m     44m     45m     46m     47m";
+  for FGs in '    m' '   1m' '  30m' '1;30m' '  31m' '1;31m' '  32m' \
+             '1;32m' '  33m' '1;33m' '  34m' '1;34m' '  35m' '1;35m' \
+             '  36m' '1;36m' '  37m' '1;37m';
+    do FG=${FGs// /}
+    echo -en " $FGs \033[$FG  $T  "
+    for BG in 40m 41m 42m 43m 44m 45m 46m 47m;
+      do echo -en "$EINS \033[$FG\033[$BG  $T  \033[0m";
+    done
+    echo;
+  done
+  echo
+}

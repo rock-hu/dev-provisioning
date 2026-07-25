@@ -1,0 +1,165 @@
+{
+  // Workbench
+
+  "workbench.colorTheme": "Tomorrow Evening",
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.showUpdateMessage": false,
+  "workbench.editor.tabCloseButton": "off",
+  "workbench.settings.editor": "json",
+  "workbench.enableExperiments": false,
+  "workbench.tips.enabled": false,
+  "workbench.startupEditor": "newUntitledFile",
+
+  // Editor
+
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.lineNumbers": "off",
+  "editor.scrollBeyondLastLine": false,
+  "editor.mouseWheelZoom": true,
+  "editor.minimap.enabled": false,
+  "editor.guides.indentation": false,
+  "editor.renderWhitespace": "all",
+  "editor.tabCompletion": "on",
+  "editor.snippetSuggestions": "top",
+  "editor.accessibilitySupport": "off",
+  "editor.wordBasedSuggestions": false,
+
+  // Window
+
+  "window.restoreFullscreen": true,
+
+  // Explorer
+
+  "explorer.autoReveal": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.compactFolders": false,
+
+  // Files
+
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.autoSave": "onFocusChange",
+  "files.associations": {
+    "*.html5": "html",
+    "*.icls": "xml",
+    "*.reg": "ini",
+    "*.todo": "markdown",
+    "*.todo.txt": "markdown",
+    "*.webc": "html",
+    ".aliases": "shellscript",
+    ".prettierrc": "yaml"
+  },
+
+  // Git
+
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "always",
+
+  // AI
+  "chat.disableAIFeatures": true,
+
+  // npm
+
+  "npm.enableScriptExplorer": true,
+
+  // Integrated Terminal
+
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "terminal.integrated.rendererType": "dom",
+
+  // Security
+
+  "security.workspace.trust.enabled": false,
+
+  // Telemetry
+
+  "telemetry.enableTelemetry": false,
+  "telemetry.telemetryLevel": "off",
+  "telemetry.enableCrashReporter": false,
+
+  // Update
+
+  "update.showReleaseNotes": false,
+
+  // Extensions
+
+  "extensions.ignoreRecommendations": true,
+
+  // Emmet
+
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+
+  // ESLint / Prettier / Formatter
+
+  "prettier.printWidth": 80,
+  "javascript.preferences.quoteStyle": "double",
+
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Plugin: Shellcheck
+
+  "shellcheck.exclude": ["SC1017"],
+
+  // Plugin: TODO Highlight
+
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "black",
+      "backgroundColor": "#FFC010"
+    },
+    {
+      "text": "[!]",
+      "color": "black",
+      "backgroundColor": "#E04164",
+      "isWholeLine": true
+    },
+    {
+      "text": "[?]",
+      "color": "black",
+      "backgroundColor": "#B9CA4A",
+      "isWholeLine": true
+    },
+    {
+      "text": "[+]",
+      "color": "black",
+      "backgroundColor": "#e78c45",
+      "isWholeLine": true
+    },
+    {
+      "text": "[-]",
+      "color": "black",
+      "backgroundColor": "#61AFEF",
+      "isWholeLine": true
+    },
+    {
+      "text": "[x]",
+      "color": "black",
+      "backgroundColor": "#808080",
+      "isWholeLine": true
+    }
+  ],
+
+  // GitLens
+
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.enabled": false,
+  "gitlens.currentLine.enabled": false
+}

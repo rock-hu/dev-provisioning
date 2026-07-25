@@ -1,6 +1,32 @@
 <project name="dev-provisioning" basedir=".">
 
 
+    <property environment="env" />
+
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${basedir}/libs/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+
+    <target name="environment">
+        <echo message="Number of Processors = ${env.NUMBER_OF_PROCESSORS}" />
+        <echo message="ANT_HOME is set to = ${env.ANT_HOME}" />
+
+    </target>
+
+
+    <condition property="isUnix">
+        <os family="unix" />
+    </condition>
+
+
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+
     <target name="sdkman">
         <exec executable="curl">
             <arg line="-s 'https://get.sdkman.io' | bash" />
@@ -13,21 +39,32 @@
 
 
     <target name="sdkman-source">
-        <exec executable="source">
-            <arg line="${SDKMAN_DIR}/bin/sdkman-init.sh" />
+        <exec executable="/bin/bash">
+            <arg line="source ${SDKMAN_DIR}/bin/sdkman-init.sh" />
         </exec>
     </target>
 
     <target name="sdkman-install-jdk" depends="sdkman-source">
-        <exec executable="sdk">
-            <arg line="install java 25.0.4-ms" />
+        <exec executable="/bin/bash" output="logs/sdkman-install-jdk.log">
+            <arg line="sdk install java 25.0.4-ms" />
         </exec>
     </target>
 
-    <target name="sdkman-install-sdks" depends="sdkman-source">
-        <exec executable="sdk">
+
+    <target name="sdkman-install-sdks">
+
+        <foreach delimiter=","
+            list="gradle,detekt,groovy,grails,http4k,infrastructor,jarviz,jmc,jmeter,kotlin,kotlintoolchain,ktx,maven,quarkus,springboot,visualvm"
+            param="sdk" target="sdkman-install-sdk">
+
+        </foreach>
+
+    </target>
+
+    <target name="sdkman-install-sdk" depends="sdkman-source">
+        <exec executable="/bin/bash">
             <arg
-                line="install gradle detekt groovy grails http4k infrastructor jarviz jmc jmeter kotlin kotlintoolchain ktx maven quarkus springboot visualvm" />
+                line="sdk install ${sdk}" />
         </exec>
     </target>
 </project>
